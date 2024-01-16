@@ -1,7 +1,8 @@
 {
   "name": "lambdatest-playwright-sample",
   "scripts": {
-    "test": "node playwright-single.js",
+    "test": "npm run -ws test --if-present",
+    "test-single": "node playwright-single.js",
     "test-smartui": "node playwright-smartui.js",
     "test-parallel": "node playwright-parallel.js",
     "test-android": "node playwright-android-real-device.js",
@@ -13,10 +14,9 @@
     "node": ">=12.7.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.35.0",
-    "playwright": "^1.35.0",
-    "@cucumber/cucumber": "^7.3.2",
-    "expect": "^29.5.0"
+    "@playwright/experimental-ct-react": "1.39.0",
+    "@playwright/test": "1.39.0",
+    "playwright": "1.39.0"
   },
   "workspaces": [
     "packages/test-js",

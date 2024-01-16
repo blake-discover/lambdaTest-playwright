@@ -9,7 +9,6 @@
     "@codeceptjs/configure": "^0.6.2",
     "@codeceptjs/examples": "^1.2.1",
     "@codeceptjs/ui": "^0.4.6",
-    "codeceptjs": "^3",
-    "playwright": "1.38.1"
+    "codeceptjs": "^3"
   }
 }
