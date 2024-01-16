@@ -1,13 +1,13 @@
-import { defineConfig, devices } from '@playwright/experimental-ct-react';
+import { defineConfig, devices } from "@playwright/experimental-ct-react";
+import baseConfig from "../test-ts/playwright.config";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './src',
+  testDir: "./src",
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
-  snapshotDir: './src/__snapshots__',
-  testMatch: ["**/*.spec.{js,jsx,ts,tsx}"],
+  snapshotDir: "./src/__snapshots__",
   /* Maximum time one test can run for. */
   timeout: 10 * 1000,
   /* Run tests in files in parallel */
@@ -19,29 +19,31 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'list',
+  reporter: "list",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: "on-first-retry",
 
     /* Port to use for Playwright component endpoint. */
     ctPort: 3100,
   },
 
   /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-  ],
+  projects: process.env.LOCAL
+    ? [
+        {
+          name: "chromium",
+          use: { ...devices["Desktop Chrome"] },
+        },
+        {
+          name: "firefox",
+          use: { ...devices["Desktop Firefox"] },
+        },
+        {
+          name: "webkit",
+          use: { ...devices["Desktop Safari"] },
+        },
+      ]
+    : baseConfig.projects,
 });
