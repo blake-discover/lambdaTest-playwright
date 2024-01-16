@@ -22,6 +22,7 @@
     "packages/test-js",
     "packages/test-ts",
     "packages/jest-js",
-    "packages/cucumber-js"
+    "packages/cucumber-js",
+    "packages/ct"
   ]
 }
