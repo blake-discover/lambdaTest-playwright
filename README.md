@@ -12,3 +12,14 @@ Each workspace has a test command that runs on LambdaCloud. Some workspaces have
 
 This project was cloned from [LambdaTest's Playwright Sample Repo](https://github.com/LambdaTest/playwright-sample/). Everything in the `archive` directory seemed unrelated to our project.
 
+## Setup
+
+```
+npm install
+npx playwright install
+```
+
+## Other Things of Note
+
+The `ct` workspace is incomplete. I was unable to establish a connection to LambdaCloud and use the `mount` fixture.
+In every instance, `mount` timed out
