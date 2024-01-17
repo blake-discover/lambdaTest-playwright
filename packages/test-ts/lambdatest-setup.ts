@@ -47,7 +47,7 @@ export function generateTest(
   config: typeof capabilities
 ) {
   return testModule.extend({
-    page: async ({ page }, use, testInfo) => {
+    lambda: async ({ page }, use, testInfo) => {
       // Configure LambdaTest platform for cross-browser testing
       let fileName = testInfo.file.split(path.sep).pop();
       if (testInfo.project.name.match(/lambdatest/)) {
@@ -62,8 +62,10 @@ export function generateTest(
           )}`,
         });
 
+        console.log(1, testInfo.project.use);
+        console.log(2, use);
+
         const ltPage = await browser.newPage(testInfo.project.use);
-        await use(ltPage);
 
         const testStatus = {
           action: "setTestStatus",
@@ -72,6 +74,7 @@ export function generateTest(
             remark: testInfo.error?.stack || testInfo.error?.message,
           },
         };
+
         await ltPage.evaluate(() => {},
         `lambdatest_action: ${JSON.stringify(testStatus)}`);
         await ltPage.close();
