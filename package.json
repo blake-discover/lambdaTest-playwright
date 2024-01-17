@@ -2,13 +2,14 @@
   "name": "lambdatest-playwright-sample",
   "scripts": {
     "test": "npm run -ws test --if-present",
-    "test-single": "node playwright-single.js",
-    "test-smartui": "node playwright-smartui.js",
-    "test-parallel": "node playwright-parallel.js",
-    "test-android": "node playwright-android-real-device.js",
-    "test-extension": "node playwright-extensions-test.js",
-    "test-iPhone-emulation": "node playwright-single-on-iphone.js",
-    "test-lighthouse-report": "node playwright-lighthouse-report.js"
+    "test:local": "npm run -ws test:local --if-present",
+    "test-single": "node scripts/playwright-single.js",
+    "test-smartui": "node scripts/playwright-smartui.js",
+    "test-parallel": "node scripts/playwright-parallel.js",
+    "test-android": "node scripts/playwright-android-real-device.js",
+    "test-extension": "node scripts/playwright-extensions-test.js",
+    "test-iPhone-emulation": "node scripts/playwright-single-on-iphone.js",
+    "test-lighthouse-report": "node scripts/playwright-lighthouse-report.js"
   },
   "engines": {
     "node": ">=12.7.0"
