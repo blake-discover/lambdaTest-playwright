@@ -1,8 +1,3 @@
-/**
- * Add the file in your test suite to run tests on LambdaTest.
- * Import `test` object from this file in the tests.
- */
-
 import * as base from "@playwright/test";
 import path from "path";
 import { chromium } from "playwright";
@@ -12,8 +7,10 @@ type TestModule = base.TestType<
   base.PlaywrightWorkerArgs & base.PlaywrightWorkerOptions
 >;
 
+export type Capabilities = typeof rootCapabilities;
+
 // LambdaTest capabilities
-export const capabilities = {
+export const rootCapabilities = {
   browserName: "Chrome", // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
   browserVersion: "latest",
   "LT:Options": {
@@ -32,33 +29,35 @@ export const capabilities = {
 };
 
 // Patching the capabilities dynamically according to the project name.
-export const modifyCapabilities = (configName: string, testName: string) => {
+export const modifyCapabilities = ({ file, project, title }: base.TestInfo) => {
+  const configName = project.name;
+  const testName = `${title} - ${file.split(path.sep).pop()}`;
+
   const config = configName.split("@lambdatest")[0];
   const [browserName, browserVersion, platform] = config.split(":");
-  capabilities.browserName = browserName ?? capabilities.browserName;
-  capabilities.browserVersion = browserVersion ?? capabilities.browserVersion;
-  capabilities["LT:Options"]["platform"] =
-    platform ?? capabilities["LT:Options"]["platform"];
-  capabilities["LT:Options"]["name"] = testName;
+
+  rootCapabilities.browserName = browserName ?? rootCapabilities.browserName;
+  rootCapabilities.browserVersion =
+    browserVersion ?? rootCapabilities.browserVersion;
+  rootCapabilities["LT:Options"]["platform"] =
+    platform ?? rootCapabilities["LT:Options"]["platform"];
+  rootCapabilities["LT:Options"]["name"] = testName;
 };
 
 export function generateTest(
   testModule: TestModule,
-  config: typeof capabilities
+  capabilities: Capabilities
 ) {
   return testModule.extend({
-    lambda: async ({ page }, use, testInfo) => {
+    page: async ({ page }, use, testInfo) => {
       // Configure LambdaTest platform for cross-browser testing
-      let fileName = testInfo.file.split(path.sep).pop();
+
       if (testInfo.project.name.match(/lambdatest/)) {
-        modifyCapabilities(
-          testInfo.project.name,
-          `${testInfo.title} - ${fileName}`
-        );
+        modifyCapabilities(testInfo);
 
         const browser = await chromium.connect({
           wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
-            JSON.stringify(config)
+            JSON.stringify(capabilities)
           )}`,
         });
 
@@ -87,6 +86,6 @@ export function generateTest(
   });
 }
 
-const test = generateTest(base.test, capabilities);
+const test = generateTest(base.test, rootCapabilities);
 
 export default test;
