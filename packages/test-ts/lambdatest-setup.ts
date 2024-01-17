@@ -63,6 +63,8 @@ export function generateTest(
 
         const ltPage = await browser.newPage(testInfo.project.use);
 
+        await use(ltPage);
+
         const testStatus = {
           action: "setTestStatus",
           arguments: {
