@@ -61,9 +61,6 @@ export function generateTest(
           )}`,
         });
 
-        console.log(1, testInfo.project.use);
-        console.log(2, use);
-
         const ltPage = await browser.newPage(testInfo.project.use);
 
         const testStatus = {
